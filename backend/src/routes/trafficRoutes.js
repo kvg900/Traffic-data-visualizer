@@ -6,7 +6,7 @@ import {
   getAllJunctions,
   getTrafficSummary,
   getTrafficTrend,
-  predictTraffic,
+  // predictTraffic,
 } from "../controllers/trafficController.js";
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.get("/junctions", getAllJunctions);
 router.get("/summary", getTrafficSummary);
 
 router.get("/trend/:junction", getTrafficTrend);
-router.get("/predict/:junction", predictTraffic);
+// router.get("/predict/:junction", predictTraffic);
 router.get("/:junction", getTrafficByJunction);
 
 export default router;

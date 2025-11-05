@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import trafficRoutes from "./routes/trafficRoutes.js";
+import mlRoutes from "./routes/mlRoutes.js";
 import cors from "cors";
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 
 // traffic routes
 app.use("/api/traffic", trafficRoutes);
+app.use("/api/traffic", mlRoutes); // ML route (mounted after /api/traffic)
 app.use(express.static("public"));
 app.use(cookieParser());
 

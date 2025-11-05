@@ -17,3 +17,23 @@ build/
 __pycache__/
 .DS_Store
 Thumbs.db
+
+# --- General ---
+.DS_Store
+.env
+*.log
+*.tmp
+
+# --- Python (ML Service) ---
+ml_service/__pycache__/
+ml_service/venv/
+ml_service/.env
+ml_service/.DS_Store
+ml_service/*.pyc
+
+# --- IDE / Editor Files ---
+.vscode/
+.idea/
+*.swp
+
+

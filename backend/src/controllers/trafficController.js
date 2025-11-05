@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import csv from "csv-parser";
+// import axios from "axios";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -155,43 +156,55 @@ export const getTrafficTrend = async (req, res) => {
 };
 
 //this is working
-export const predictTraffic = async (req, res) => {
-  const { junction } = req.params;
-  const points = [];
+// export const predictTraffic = async (req, res) => {
+//   const { junction } = req.params;
+//   const points = [];
 
-  fs.createReadStream("src/dataset/traffic.csv")
-    .pipe(csv())
-    .on("data", (data) => {
-      if (data["Junction"] === junction) {
-        const date = new Date(data["DateTime"]);
-        const vehicles = Number(data["Vehicles"]);
-        if (!isNaN(date.getTime()) && !isNaN(vehicles)) {
-          points.push({ x: date.getTime(), y: vehicles });
-        }
-      }
-    })
-    .on("end", () => {
-      if (points.length < 2)
-        return res.status(400).json({ message: "Not enough data to predict." });
+//   fs.createReadStream("src/dataset/traffic.csv")
+//     .pipe(csv())
+//     .on("data", (data) => {
+//       if (data["Junction"] === junction) {
+//         const date = new Date(data["DateTime"]);
+//         const vehicles = Number(data["Vehicles"]);
+//         if (!isNaN(date.getTime()) && !isNaN(vehicles)) {
+//           points.push({ x: date.getTime(), y: vehicles });
+//         }
+//       }
+//     })
+//     .on("end", () => {
+//       if (points.length < 2)
+//         return res.status(400).json({ message: "Not enough data to predict." });
 
-      const n = points.length;
-      const sumX = points.reduce((a, p) => a + p.x, 0);
-      const sumY = points.reduce((a, p) => a + p.y, 0);
-      const sumXY = points.reduce((a, p) => a + p.x * p.y, 0);
-      const sumX2 = points.reduce((a, p) => a + p.x * p.x, 0);
+//       const n = points.length;
+//       const sumX = points.reduce((a, p) => a + p.x, 0);
+//       const sumY = points.reduce((a, p) => a + p.y, 0);
+//       const sumXY = points.reduce((a, p) => a + p.x * p.y, 0);
+//       const sumX2 = points.reduce((a, p) => a + p.x * p.x, 0);
 
-      const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX ** 2);
-      const a = (sumY - b * sumX) / n;
+//       const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX ** 2);
+//       const a = (sumY - b * sumX) / n;
 
-      const nextHour = points[points.length - 1].x + 3600 * 1000;
-      const predicted = a + b * nextHour;
+//       const nextHour = points[points.length - 1].x + 3600 * 1000;
+//       const predicted = a + b * nextHour;
 
-      res.status(200).json({
-        predictedVehicles: Math.round(predicted),
-        junction,
-      });
-    })
-    .on("error", (err) =>
-      res.status(500).json({ message: "Error processing CSV", err })
-    );
-};
+//       res.status(200).json({
+//         predictedVehicles: Math.round(predicted),
+//         junction,
+//       });
+//     })
+//     .on("error", (err) =>
+//       res.status(500).json({ message: "Error processing CSV", err })
+//     );
+// };
+// export const predictTraffic = async (req, res) => {
+//   const { junction } = req.params;
+
+//   try {
+//     const response = await axios.get(
+//       `http://localhost:5001/predict?junction=${junction}`
+//     );
+//     res.json(response.data);
+//   } catch (error) {
+//     res.status(500).json({ message: "ML service error", error: error.message });
+//   }
+// };
