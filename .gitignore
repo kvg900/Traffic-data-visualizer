@@ -1,0 +1,19 @@
+# Node
+node_modules/
+.env
+
+# Python venv
+venv/
+ml_service/venv/
+
+# Dataset (optional)
+*.csv
+
+# Build folders
+dist/
+build/
+
+# System files
+__pycache__/
+.DS_Store
+Thumbs.db
