@@ -3,14 +3,17 @@ import cookieParser from "cookie-parser";
 import trafficRoutes from "./routes/trafficRoutes.js";
 import mlRoutes from "./routes/mlRoutes.js";
 import cors from "cors";
-const app = express();
+import tomtomRoutes from "./routes/tomtomRoutes.js";
 
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
-  })
-);
+const app = express();
+app.use(cors());
+
+// app.use(
+//   cors({
+//     origin: process.env.CORS_ORIGIN,
+//     credentials: true,
+//   })
+// );
 
 //Implementing security practices to handle the various types and forms of requests incoming from frontend
 
@@ -22,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 // traffic routes
+app.use("/api/tomtom", tomtomRoutes);
 app.use("/api/traffic", trafficRoutes);
 app.use("/api/traffic", mlRoutes); // ML route (mounted after /api/traffic)
 app.use(express.static("public"));
